@@ -3,6 +3,10 @@ node-ninja-led
 
 Color wheel to control your Ninja Block's LED
 
+## Requirements
+1. Ninja Account
+2. Prototype Ninja Block (with built in RF module)
+
 ## Installation
 ```
 git clone https://github.com/thatguydan/node-ninja-led.git
