@@ -1,12 +1,12 @@
-ninja-led-picker
+node-ninja-led
 ================
 
 Color wheel to control your Ninja Block's LED
 
 ## Installation
 ```
-git clone https://github.com/thatguydan/ninja-led-picker.git
-cd ninja-led-picker
+git clone https://github.com/thatguydan/node-ninja-led.git
+cd node-ninja-led
 npm install
 node app.js
 ```
