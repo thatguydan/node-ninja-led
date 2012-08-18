@@ -5,7 +5,7 @@ Color wheel to control your Ninja Block's LED
 
 ## Requirements
 1. Ninja Account
-2. Prototype Ninja Block (with built in RF module)
+2. Ninja Block (ones with built in RF can do full RGB, older ones not so much)
 
 ## Installation
 ```
