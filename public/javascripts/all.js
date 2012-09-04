@@ -1,14 +1,14 @@
 $(document).ready(function() {
     $('#picker').farbtastic(function(color) {
+        var deviceGuid = $(this.wheel).parent().parent().data().guid;
         var color = color.substr(1,color.length);
-        var toSend = {
+        var payload = {
             DA:color
-        }
-        var sid = $("#sid").val();
+        };
         $.ajax({
-            url:'/rest/v0/device/'+$("#device").val()+'/'+$("#sid").val(),
+            url:'/rest/v1/device/'+deviceGuid,
             type:'PUT',
-            data:toSend,
+            data:payload,
             crossDomain:false,
             success:function(response) {
                 console.log(response)

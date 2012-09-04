@@ -1,13 +1,18 @@
 extends layout
-
 block content
-    div#container
-        form.wheel
-            .form-item
-            div#picker
-    br
-    label(for="sid") Ninja SID
-    input(type="text",id="sid",name="sid")
-    br
-    label(for="sid") LED GUID
-    input(type="text",id="device",name="device")
+    div.container
+        .page-header
+            h1 
+                |Welcome, #{user.name} 
+                small
+                    | Pick your LED to begin
+        .tabbable
+            ul.nav.nav-tabs
+                for device in devices
+                    li
+                        a.js-picker-activate(href='#tab#{device.guid}',data-toggle='tab')=device.shortName
+            .tab-content
+                for device in devices
+                    div.tab-pane.fade(id="tab#{device.guid}")
+                        form.wheel
+                            div#picker(data-guid="#{device.guid}")
