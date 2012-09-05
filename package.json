@@ -10,6 +10,7 @@
     "jade": "*",
     "request":"*",
     "authom":"https://github.com/thatguydan/authom/tarball/master",
+    "ninja-blocks":"https://github.com/ninjablocks/node-ninja-blocks/tarball/master",
     "redis-url": "0.1.0",
     "redis": "0.7.2",
     "connect-redis":"1.4.0"
