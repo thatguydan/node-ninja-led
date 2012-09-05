@@ -39,25 +39,27 @@ authom.createServer({
   id:process.env.NINJA_CLIENT_ID,
   secret:process.env.NINJA_CLIENT_SECRET,
   scope:['all']
-})
+});
 
 /*
-  Authom configuration
+    Authom configuration
  */
+
 authom.on('auth',function(req,res,data) {
-  console.log(data)
   req.session.ninja = data;
-  res.redirect('/');
+  routes.subscribeToDataFeed(req,res);
 });
 
 authom.on('error',function(req,res,data) {
   console.log(data);
 });
+
 /*
   App Routes
  */
 app.get('/', routes.index);
-app.put('/rest/v1/device/:deviceGuid', routes.sendLedValue);
+app.put('/rest/v0/device/:deviceGuid', routes.sendLedValue);
+app.post('/data_callback',routes.handleInboundData);
 
 /*
   Authom routes

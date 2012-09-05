@@ -6,7 +6,7 @@ $(document).ready(function() {
             DA:color
         };
         $.ajax({
-            url:'/rest/v1/device/'+deviceGuid,
+            url:'/rest/v0/device/'+deviceGuid,
             type:'PUT',
             data:payload,
             crossDomain:false,
