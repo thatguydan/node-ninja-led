@@ -12,14 +12,3 @@ html
 
   body
     block content
-
-    script
-        var pusher = new Pusher('#{ninjaPusher}'); // Replace with your app key
-        var channel = pusher.subscribe('#{user.pusherChannel}');
-        app.setDevices(!{JSON.stringify(devices)})
-        channel.bind('heartbeat', function(heartbeat) {
-            app.handleHeartbeat(heartbeat);
-        });
-        channel.bind('data', function(data) {
-            app.handleData(data);
-        });
