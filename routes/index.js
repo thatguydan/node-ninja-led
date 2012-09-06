@@ -27,7 +27,7 @@ exports.index = function(req, res){
           title:'Hello!',
           user:req.session.ninja,
           devices:leds,
-          ninjaPusher:'00faab0f9cd3973fb150'
+          ninjaPusher:'ccff70362850caf79c9f'
         })
       });   
 
@@ -49,7 +49,7 @@ exports.subscribeToDataFeed = function(req,res) {
     if (Object.keys(leds).length>0) {
       for (var guid in leds) {
         if (leds.hasOwnProperty(guid)) {
-          var url = "http://127.0.0.1:8000/data_callback";
+          var url = "http://ninja-led.herokuapp.com/data_callback";
           ninja.device(guid).subscribe(url,true,function(err) {
             if (err) throw err;
           });
