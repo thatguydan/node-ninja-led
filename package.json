@@ -1,19 +1,16 @@
 {
   "name": "node-ninja-led",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
+  "private": false,
   "dependencies": {
     "express": "3.0.0rc3",
     "jade": "*",
-    "request":"*",
+    "request":"latest",
     "authom":"https://github.com/thatguydan/authom/tarball/master",
     "ninja-blocks":"https://github.com/ninjablocks/node-ninja-blocks/tarball/master",
-    "redis-url": "0.1.0",
-    "redis": "0.7.2",
-    "connect-redis":"1.4.0"
+    "redis-url": "latest",
+    "redis": "latest",
+    "connect-redis":"latest"
   },
   "engines": {
     "node":"0.8.x",
