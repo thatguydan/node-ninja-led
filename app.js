@@ -26,6 +26,10 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(function(req,res,next) {
+    req.redis = redisClient;
+    next();
+  });
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -45,9 +49,25 @@ authom.createServer({
     Authom configuration
  */
 
-authom.on('auth',function(req,res,data) {
-  req.session.ninja = data;
-  routes.subscribeToDataFeed(req,res);
+authom.on('auth',function(req,res,user) {
+  /*
+   *  `user` is an object containing your accesss `token`,
+   *  the user's unique `id`, and `data` about the user (`id`,
+   *  `name`, `email`, and their `pusherChannel`).
+   *  
+   * @param {String} token
+   * @param {String} id
+   * @param {Object} data
+   */
+  var ninja = user.data;
+  ninja.token = user.token;
+
+  req.session.ninja = ninja;
+
+  redisClient.hmset('user:'+user.id, ninja,function(err) {
+    if (err) throw err;
+    else routes.subscribeToDataFeed(req,res);
+  });
 });
 
 authom.on('error',function(req,res,data) {
@@ -58,7 +78,7 @@ authom.on('error',function(req,res,data) {
   App Routes
  */
 app.get('/', routes.index);
-app.put('/rest/v0/device/:deviceGuid', routes.sendLedValue);
+app.put('/device/:deviceGuid/colour', routes.sendLedValue);
 app.post('/data_callback',routes.handleInboundData);
 
 /*

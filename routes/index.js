@@ -26,7 +26,8 @@ exports.index = function(req, res){
         res.render('index',{
           title:'Hello!',
           user:req.session.ninja,
-          devices:leds
+          devices:leds,
+          ninjaPusher:'00faab0f9cd3973fb150'
         })
       });   
 
@@ -36,6 +37,7 @@ exports.index = function(req, res){
 exports.subscribeToDataFeed = function(req,res) {
   var ninja = require('ninja-blocks').app({access_token:req.session.ninja.token});
   ninja.devices(function(err,devices) {
+    if (err) throw err.error
     var leds = {};
     // First pull out all the LED devices
     for (var i in devices) {
@@ -45,13 +47,10 @@ exports.subscribeToDataFeed = function(req,res) {
     }
     // If we have any, let's create callbacks so we can listen to their data
     if (Object.keys(leds).length>0) {
-      for (var i in leds) {
-        if (leds.hasOwnProperty(i)) {
-          var opts = {
-            guid:i,
-            url:"http://ninja-led.herokuapp.com/data_callback"
-          }
-          ninja.subscribe(opts,function(err) {
+      for (var guid in leds) {
+        if (leds.hasOwnProperty(guid)) {
+          var url = "http://127.0.0.1:8000/data_callback";
+          ninja.device(guid).subscribe(url,true,function(err) {
             if (err) throw err;
           });
           res.redirect('/')
@@ -62,16 +61,30 @@ exports.subscribeToDataFeed = function(req,res) {
 };
 
 exports.handleInboundData = function(req,res) {
-  console.log(req.body)
+  req.redis.hgetall('user:'+req.body.id,function(err,data) {
+    console.dir(data);
+    if (err) throw err;
+    else {
+      var ninja = require('ninja-blocks').app({access_token:data.token});
+      ninja.device(req.body.GUID).data(function(err,historical) {
+        console.log('data!')
+        console.dir(historical);
+      });
+      var ninja = require('ninja-blocks').app({access_token:data.token});
+      ninja.device(req.body.GUID).last_heartbeat(function(err,heartbeat) {
+        console.log('heartbeat!')
+        console.dir(heartbeat);
+      });
+    }
+  });
 }
 
 exports.sendLedValue = function(req, res){
-  request({
-    method:'PUT',
-    url:'https://a.ninja.is/rest/v0/device/'+req.params.deviceGuid,
-    json:req.body,
-    qs: {
-        access_token:req.session.ninja.token
-    }
-  }).pipe(res);
+  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.token});
+  ninja
+    .device(req.params.deviceGuid)
+    .actuate(req.body.colour,function(err) {
+      if (err) throw err.error;
+      else res.send(200);
+    });
 }

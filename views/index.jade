@@ -14,5 +14,10 @@ block content
             .tab-content
                 for device in devices
                     div.tab-pane.fade(id="tab#{device.guid}")
-                        form.wheel
-                            div#picker(data-guid="#{device.guid}")
+                        .row
+                            .span6
+                                form.wheel.pull-right
+                                    .picker(data-guid="#{device.guid}")
+                            .span6
+                                h4 This device is reporting:
+                                div.history(data-guid="#{device.guid}")
