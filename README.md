@@ -23,7 +23,7 @@ export NINJA_CLIENT_SECRET="[your client secret]"
 node app.js
 ```
 
-When ready to reploy (Heroku example provided)
+When ready to deploy (Heroku example provided)
 
 ```
 heroku create --stack cedar --addons redistogo:nano
