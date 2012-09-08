@@ -21,21 +21,30 @@ var app = {
     }
 };
 
-$(document).ready(function() {
-    $('.picker').farbtastic(function(colour) {
-        var deviceGuid = $(this.wheel).parent().parent().data().guid;
-        var payload = {
-            colour:colour.substr(1,colour.length)
-        };
-        $.ajax({
-            url:'/device/'+deviceGuid+'/colour',
-            type:'PUT',
-            data:payload,
-            crossDomain:false,
-            success:function(response) {
-                console.log(response)
-            }
 
+$(document).ready(function() {
+    $('.picker').each(function() {
+        var guid = $(this).data().guid;
+        var pickerid = 'picker'+guid;
+        var sliderid = 'slider'+guid;
+        ColorPicker(
+        document.getElementById(sliderid),
+        document.getElementById(pickerid),
+        function(hex, hsv, rgb) {
+            var deviceGuid = $(this.pickerElement).data().guid;
+            var payload = {
+                colour:hex.substr(1,hex.length)
+            };
+            $.ajax({
+                url:'/device/'+deviceGuid+'/colour',
+                type:'PUT',
+                data:payload,
+                crossDomain:false,
+                success:function(response) {
+                    console.log(response)
+                }
+
+            });        
         });
     });
 });

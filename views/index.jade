@@ -19,8 +19,9 @@ block content
                     div.tab-pane.fade(id="tab#{device.guid}")
                         .row
                             .span6
-                                form.wheel.pull-right
-                                    .picker(data-guid="#{device.guid}")
+                                .pull-right
+                                    .picker(id="picker#{device.guid}", data-guid="#{device.guid}")
+                                    .slider(id="slider#{device.guid}", data-guid="#{device.guid}")
                             .span6
                                 h4 This device is reporting:
                                 div.history(data-guid="#{device.guid}")
@@ -35,3 +36,4 @@ block content
         channel.bind('data', function(data) {
             app.handleData(data);
         });
+

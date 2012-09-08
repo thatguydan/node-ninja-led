@@ -1,8 +1,8 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.picker { 
+	width: 200px !important; 
+	height: 200px !important;
 }
-
-a {
-  color: #00B7FF;
+.slider { 
+	width: 30px !important; 
+	height: 200px !important;
 }
