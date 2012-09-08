@@ -13,7 +13,7 @@ exports.index = function(req, res){
         return;
     }
     else {
-      var ninja = require('ninja-blocks').app({access_token:req.session.ninja.token});
+      var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
       ninja.devices(function(err,devices) {
         var leds = {};
         // First pull out all the LED devices
@@ -35,7 +35,7 @@ exports.index = function(req, res){
 };
 
 exports.subscribeToDataFeed = function(req,res) {
-  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.token});
+  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
   ninja.devices(function(err,devices) {
     if (err) throw err.error
     var leds = {};
@@ -56,6 +56,8 @@ exports.subscribeToDataFeed = function(req,res) {
           res.redirect('/')
         }
       }
+    } else {
+      res.redirect('/')
     }
   });
 };
@@ -65,14 +67,9 @@ exports.handleInboundData = function(req,res) {
     console.dir(data);
     if (err) throw err;
     else {
-      var ninja = require('ninja-blocks').app({access_token:data.token});
-      ninja.device(req.body.GUID).data(function(err,historical) {
-        console.log('data!')
-        console.dir(historical);
-      });
-      var ninja = require('ninja-blocks').app({access_token:data.token});
+      var ninja = require('ninja-blocks').app({access_token:data.access_token});
       ninja.device(req.body.GUID).last_heartbeat(function(err,heartbeat) {
-        console.log('heartbeat!')
+        console.log("Last heartbeat")
         console.dir(heartbeat);
       });
     }
@@ -80,7 +77,7 @@ exports.handleInboundData = function(req,res) {
 }
 
 exports.sendLedValue = function(req, res){
-  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.token});
+  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
   ninja
     .device(req.params.deviceGuid)
     .actuate(req.body.colour,function(err) {

@@ -60,7 +60,7 @@ authom.on('auth',function(req,res,user) {
    * @param {Object} data
    */
   var ninja = user.data;
-  ninja.token = user.token;
+  ninja.access_token = user.token;
 
   req.session.ninja = ninja;
 
@@ -85,6 +85,15 @@ app.post('/data_callback',routes.handleInboundData);
   Authom routes
  */
 app.get("/auth/:service",authom.app);
+
+app.get('/user',function(req,res) {
+  var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
+
+  ninja.user(function(err,data) {
+    res.json(data);
+  });
+
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
