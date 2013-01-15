@@ -7,7 +7,7 @@ var ninja = require('ninja-blocks')
 
 exports.index = function(req, res){
     if (!req.session.ninja) {
-        res.render('authme', { 
+        res.render('authme', {
            title: 'Ninja Color Picker'
         });
         return;
@@ -29,7 +29,7 @@ exports.index = function(req, res){
           devices:leds,
           ninjaPusher:'ccff70362850caf79c9f'
         })
-      });   
+      });
 
     }
 };
@@ -63,17 +63,18 @@ exports.subscribeToDataFeed = function(req,res) {
 };
 
 exports.handleInboundData = function(req,res) {
-  req.redis.hgetall('user:'+req.body.id,function(err,data) {
-    console.dir(data);
-    if (err) throw err;
-    else {
-      var ninja = require('ninja-blocks').app({access_token:data.access_token});
-      ninja.device(req.body.GUID).last_heartbeat(function(err,heartbeat) {
-        console.log("Last heartbeat")
-        console.dir(heartbeat);
-      });
-    }
-  });
+  // req.redis.hgetall('user:'+req.body.id,function(err,data) {
+  //   console.dir(data);
+  //   if (err) throw err;
+  //   else {
+  //     var ninja = require('ninja-blocks').app({access_token:data.access_token});
+  //     ninja.device(req.body.GUID).last_heartbeat(function(err,heartbeat) {
+  //       console.log("Last heartbeat")
+  //       console.dir(heartbeat);
+  //     });
+  //   }
+  // });
+  res.send(200);
 }
 
 exports.sendLedValue = function(req, res){
