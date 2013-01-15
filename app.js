@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-if (!process.env.NINJA_CLIENT_ID||!process.env.NINJA_CLIENT_SECRET) 
+if (!process.env.NINJA_CLIENT_ID||!process.env.NINJA_CLIENT_SECRET)
   throw new Error('Ninja client credentials have not been set!')
 
 var express = require('express')
@@ -38,7 +38,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-authom.createServer({ 
+authom.createServer({
   service:"ninjablocks",
   id:process.env.NINJA_CLIENT_ID,
   secret:process.env.NINJA_CLIENT_SECRET,
@@ -54,13 +54,15 @@ authom.on('auth',function(req,res,user) {
    *  `user` is an object containing your accesss `token`,
    *  the user's unique `id`, and `data` about the user (`id`,
    *  `name`, `email`, and their `pusherChannel`).
-   *  
+   *
    * @param {String} token
    * @param {String} id
    * @param {Object} data
    */
   var ninja = user.data;
   ninja.access_token = user.token;
+
+  console.log(ninja)
 
   req.session.ninja = ninja;
 
