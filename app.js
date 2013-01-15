@@ -62,11 +62,16 @@ authom.on('auth',function(req,res,user) {
   var ninja = user.data;
   ninja.access_token = user.token;
 
-  console.log(ninja)
+  var toSet = {};
+  for (var i in ninja) {
+    if (typeof ninja[i] !== "undefined" && null !== ninja[i]) {
+      toSet[i]=ninja[i].toString();
+    }
+  }
 
-  req.session.ninja = ninja;
+  req.session.ninja = toSet;
 
-  redisClient.hmset('user:'+user.id, ninja,function(err) {
+  redisClient.hmset('user:'+user.id, toSet,function(err) {
     if (err) throw err;
     else routes.subscribeToDataFeed(req,res);
   });
