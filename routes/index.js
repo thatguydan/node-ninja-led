@@ -15,6 +15,12 @@ exports.index = function(req, res){
     else {
       var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
       ninja.devices(function(err,devices) {
+
+        if (err) {
+          console.error(err);
+          return;
+        }
+
         var leds = {};
         // First pull out all the LED devices
         for (var i in devices) {
@@ -37,7 +43,12 @@ exports.index = function(req, res){
 exports.subscribeToDataFeed = function(req,res) {
   var ninja = require('ninja-blocks').app({access_token:req.session.ninja.access_token});
   ninja.devices(function(err,devices) {
-    if (err) throw err.error
+
+    if (err) {
+      console.error(err);
+      return;
+    }
+
     var leds = {};
     // First pull out all the LED devices
     for (var i in devices) {
