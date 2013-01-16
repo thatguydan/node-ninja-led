@@ -93,7 +93,10 @@ exports.sendLedValue = function(req, res){
   ninja
     .device(req.params.deviceGuid)
     .actuate(req.body.colour,function(err) {
-      if (err) throw err.error;
+      if (err) {
+        console.error(err);
+        return;
+      }
       else res.send(200);
     });
 }
