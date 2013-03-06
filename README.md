@@ -42,7 +42,7 @@ node app.js
 
 ### Step 5 - Visit the app in your browser
 ```
-http://localhost:3000
+http://localhost:8000
 ```
 
 ## Sample Heroku Deploy
