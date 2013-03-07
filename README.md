@@ -52,7 +52,7 @@ heroku apps:create --addons redistogo:nano
 ```
 **Important**: You must note down the app URL you create in this step as it must be used for the callback when creating a Ninja App
 
-### Step 2 - Createa production Ninja App
+### Step 2 - Create a production Ninja App
 This can be done at https://a.ninja.is/hacking.
 
 **Important**: Your callback URL will be the _[heroku url]_/auth/ninjablocks. For example, if the result of step 1 was:
